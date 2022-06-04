@@ -25,6 +25,7 @@
  * SOFTWARE.
  */
 
+
 package de.elia.ghostwarp.plugin.prefix;
 
 public class ErrorPrefix {

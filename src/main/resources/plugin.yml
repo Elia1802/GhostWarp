@@ -1,0 +1,14 @@
+name: GhostWarp
+version: '${project.version}'
+main: de.elia.ghostwarp.GhostWarp
+api-version: 1.18
+authors: [ Elia ]
+description: The Warp System of Ghost
+website: https://www.spigotmc.org/resources/ghost-main.102115/
+commands:
+  setwarp:
+    description: Set a Warp (Spawnlocation)
+  warp:
+    description: Teleport a Player to a warp (Spawnlocation)
+  delwarp:
+    description: Deleted a Warp (Spawnlocation)

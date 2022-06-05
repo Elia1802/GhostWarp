@@ -65,7 +65,7 @@ public final class GhostWarp extends JavaPlugin {
                 GhostWarpConfig.save();
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "Config loaded");
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "checks for Updates");
-                new Updater(this , 0).getVersion(version -> {
+                new Updater(this , 102443).getVersion(version -> {
                     if (this.getDescription().getVersion().equals(version)) {
                         Bukkit.getLogger().info(Prefix.getGhostLogger() + "There is not a new Update for the GhostWarp System available!");
                     }else {

@@ -41,7 +41,7 @@ public class UpdateEvent implements Listener {
 
     @EventHandler
     public void onUpdate(PlayerJoinEvent event){
-        new Updater(plugin , 0).getVersion(version -> {
+        new Updater(plugin , 102443).getVersion(version -> {
             if (plugin.getDescription().getVersion().equals(version)) {
                 event.getPlayer().sendMessage("");
             }else if (event.getPlayer().hasPermission("ghost.owner")) {

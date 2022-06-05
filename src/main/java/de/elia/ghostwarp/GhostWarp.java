@@ -29,7 +29,7 @@ package de.elia.ghostwarp;
 
 import de.elia.ghostmain.all.plugins.prefix.Prefix;
 import de.elia.ghostmain.all.plugins.updater.Updater;
-import de.elia.ghostmain.GhostMain;
+import de.elia.ghostmain.thisplugin.GhostMain;
 import de.elia.ghostwarp.commands.del.DelWarpCommand;
 import de.elia.ghostwarp.commands.set.SetWarpCommand;
 import de.elia.ghostwarp.commands.teleport.WarpCommand;
@@ -43,8 +43,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class GhostWarp extends JavaPlugin {
 
     private static final GhostMain ghostMain = (GhostMain) Bukkit.getPluginManager().getPlugin("GhostMain");
-
-    private final GhostWarpConfig config = new GhostWarpConfig(this , "Locations.yml");
 
     private static GhostWarp instance;
 
@@ -62,15 +60,16 @@ public final class GhostWarp extends JavaPlugin {
                     Bukkit.getPluginManager().registerEvents(new  UpdateEvent() , this);
                 Bukkit.getLogger().info(Prefix.getGhostLogger() + "Events loaded");
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "load Config");
-                GhostWarp.getInstance().getConfiguration().copyDefaults(true);
-                GhostWarp.getInstance().getConfiguration().save();
+                GhostWarpConfig.setup();
+                GhostWarpConfig.get().options().copyDefaults(true);
+                GhostWarpConfig.save();
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "Config loaded");
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "checks for Updates");
                 new Updater(this , 102443).getVersion(version -> {
-                    if (!this.getDescription().getVersion().equals(version)) {
-                        Bukkit.getLogger().warning(Prefix.getGhostLogger() + "There is a new Update for the GhostWarp System available!");
-                    }else {
+                    if (this.getDescription().getVersion().equals(version)) {
                         Bukkit.getLogger().info(Prefix.getGhostLogger() + "There is not a new Update for the GhostWarp System available!");
+                    }else {
+                        Bukkit.getLogger().warning(Prefix.getGhostLogger() + "There is a new Update for the GhostWarp System available!");
                     }
                 });
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "Update checks");
@@ -86,18 +85,6 @@ public final class GhostWarp extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Bukkit.getLogger().warning("Stop GhostWarp System!");
-        Bukkit.getLogger().info("save Config!");
-        Bukkit.getLogger().info("Config saved!");
-        Bukkit.getLogger().info("GhostWarp-System stopped!");
-    }
-
-    public static GhostWarp getInstance() {
-        return instance;
-    }
-
-    public GhostWarpConfig getConfiguration() {
-        return config;
+        // Plugin shutdown logic
     }
 }
-

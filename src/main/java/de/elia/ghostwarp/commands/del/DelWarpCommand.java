@@ -29,7 +29,6 @@ package de.elia.ghostwarp.commands.del;
 
 import de.elia.ghostmain.all.plugins.prefix.Prefix;
 import de.elia.ghostwarp.GhostWarp;
-import de.elia.ghostwarp.plugin.config.GhostWarpConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -72,11 +71,11 @@ public class DelWarpCommand implements CommandExecutor{
         }
         locationName = args[0].toLowerCase();
 
-        if (GhostWarpConfig.get().get(locationName) == null) {
+        if (GhostWarp.getInstance().getConfiguration().get(locationName) == null) {
             player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp is not exist!");
         }else {
-            GhostWarpConfig.get().set(locationName , null);
-            GhostWarpConfig.save();
+            GhostWarp.getInstance().getConfiguration().set(locationName , null);
+            GhostWarp.getInstance().getConfiguration().save();
             player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.AQUA + "The Warp " + ChatColor.GREEN + locationName + ChatColor.AQUA + " is deleted!");
         }
         return true;

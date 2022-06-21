@@ -29,7 +29,6 @@ package de.elia.ghostwarp.commands.teleport;
 
 import de.elia.ghostmain.all.plugins.prefix.Prefix;
 import de.elia.ghostwarp.GhostWarp;
-import de.elia.ghostwarp.plugin.config.GhostWarpConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -69,17 +68,17 @@ public class WarpCommand implements CommandExecutor{
 
         locationName = args[0].toLowerCase();
 
-        if (GhostWarpConfig.get().get(locationName) == null) {
+        if (GhostWarp.getInstance().getConfiguration().get(locationName) == null) {
             player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp not exist!");
         }else {
             world = String.valueOf(Bukkit.getServer().getWorld(""));
-            world = GhostWarpConfig.get().getString(locationName + ".World");
-            double x = GhostWarpConfig.get().getDouble(locationName + ".X");
-            double y = GhostWarpConfig.get().getDouble(locationName + ".Y");
-            double z = GhostWarpConfig.get().getDouble(locationName + ".Z");
-            float yaw = (float) GhostWarpConfig.get().getDouble(locationName + ".Pitch");
-            float pitch = (float) GhostWarpConfig.get().getDouble(locationName + ".Yaw");
-            Location location = new Location(Bukkit.getWorld(world), x , y , z , pitch , yaw);
+            world = GhostWarp.getInstance().getConfiguration().getString(locationName + ".World");
+            double x = GhostWarp.getInstance().getConfiguration().getDouble(locationName + ".X");
+            double y = GhostWarp.getInstance().getConfiguration().getDouble(locationName + ".Y");
+            double z = GhostWarp.getInstance().getConfiguration().getDouble(locationName + ".Z");
+            double yaw =  GhostWarp.getInstance().getConfiguration().getDouble(locationName + ".Pitch");
+            double pitch = GhostWarp.getInstance().getConfiguration().getDouble(locationName + ".Yaw");
+            Location location = new Location(Bukkit.getWorld(world), x , y , z , (float) pitch, (float) yaw);
             player.teleport(location);
             player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.GREEN + "You have been teleport to " + ChatColor.AQUA + locationName);
         }

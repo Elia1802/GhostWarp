@@ -29,7 +29,6 @@ package de.elia.ghostwarp.commands.set;
 
 import de.elia.ghostmain.all.plugins.prefix.Prefix;
 import de.elia.ghostwarp.GhostWarp;
-import de.elia.ghostwarp.plugin.config.GhostWarpConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -72,17 +71,17 @@ public class SetWarpCommand implements CommandExecutor{
             player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "/delwarp [NAME]");
         }
         locationName = args[0].toLowerCase();
-        if (GhostWarpConfig.get().get(locationName) != null) {
+        if (GhostWarp.getInstance().getConfiguration().get(locationName) != null) {
             player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp exist");
         }else {
             Location location = player.getLocation();
-            GhostWarpConfig.get().set(locationName + ".World" , location.getWorld().getName());
-            GhostWarpConfig.get().set(locationName + ".X" , location.getX());
-            GhostWarpConfig.get().set(locationName + ".Y" , location.getY());
-            GhostWarpConfig.get().set(locationName + ".Z" , location.getZ());
-            GhostWarpConfig.get().set(locationName + ".Pitch" , location.getPitch());
-            GhostWarpConfig.get().set(locationName + ".Yaw" , location.getYaw());
-            GhostWarpConfig.save();
+            GhostWarp.getInstance().getConfiguration().set(locationName + ".World" , location.getWorld().getName());
+            GhostWarp.getInstance().getConfiguration().set(locationName + ".X" , location.getX());
+            GhostWarp.getInstance().getConfiguration().set(locationName + ".Y" , location.getY());
+            GhostWarp.getInstance().getConfiguration().set(locationName + ".Z" , location.getZ());
+            GhostWarp.getInstance().getConfiguration().set(locationName + ".Pitch" , location.getPitch());
+            GhostWarp.getInstance().getConfiguration().set(locationName + ".Yaw" , location.getYaw());
+            GhostWarp.getInstance().getConfiguration().save();
             player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.AQUA + "Warp " + ChatColor.GREEN + locationName + ChatColor.AQUA + " set!");
         }
         return false;

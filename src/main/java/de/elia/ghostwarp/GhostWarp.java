@@ -44,6 +44,8 @@ public final class GhostWarp extends JavaPlugin {
 
     private static final GhostMain ghostMain = (GhostMain) Bukkit.getPluginManager().getPlugin("GhostMain");
 
+    private final GhostWarpConfig config = new GhostWarpConfig(this , "Locations.yml");
+
     private static GhostWarp instance;
 
     @Override
@@ -60,9 +62,8 @@ public final class GhostWarp extends JavaPlugin {
                     Bukkit.getPluginManager().registerEvents(new  UpdateEvent() , this);
                 Bukkit.getLogger().info(Prefix.getGhostLogger() + "Events loaded");
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "load Config");
-                GhostWarpConfig.setup();
-                GhostWarpConfig.get().options().copyDefaults(true);
-                GhostWarpConfig.save();
+                GhostWarp.getInstance().getConfiguration().copyDefaults(true);
+                GhostWarp.getInstance().getConfiguration().save();
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "Config loaded");
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "checks for Updates");
                 new Updater(this , 102443).getVersion(version -> {
@@ -85,6 +86,17 @@ public final class GhostWarp extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        Bukkit.getLogger().warning("Stop GhostWarp System!");
+        Bukkit.getLogger().info("save Config!");
+        Bukkit.getLogger().info("Config saved!");
+        Bukkit.getLogger().warning("GhostWarp-System stopped!");
+    }
+
+    public static GhostWarp getInstance() {
+        return instance;
+    }
+
+    public GhostWarpConfig getConfiguration() {
+        return config;
     }
 }

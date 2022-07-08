@@ -89,7 +89,7 @@ public final class GhostWarp extends JavaPlugin {
         Bukkit.getLogger().warning("Stop GhostWarp System!");
         Bukkit.getLogger().info("save Config!");
         Bukkit.getLogger().info("Config saved!");
-        Bukkit.getLogger().warning("GhostWarp-System stopped!");
+        Bukkit.getLogger().info("GhostWarp-System stopped!");
     }
 
     public static GhostWarp getInstance() {

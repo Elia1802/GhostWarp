@@ -28,6 +28,7 @@
 package de.elia.ghostwarp.commands.set;
 
 import de.elia.ghostmain.all.plugins.prefix.Prefix;
+import de.elia.ghostmain.GhostMain;
 import de.elia.ghostwarp.GhostWarp;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -46,6 +47,14 @@ public class SetWarpCommand implements CommandExecutor{
 
     private String locationName;
 
+    private final String ownerPermissionID = "ghostowner";
+
+    private final String adminPermissionID = "ghostadmin";
+
+    private final String developerPermissionID = "ghostdeveloper";
+
+    private final String moderatorPermissionID = "ghostmoderator";
+
     public SetWarpCommand(GhostWarp plugin){
         this.plugin = plugin;
     }
@@ -57,33 +66,58 @@ public class SetWarpCommand implements CommandExecutor{
             return false;
         }
 
-        player = (Player) sender;
-        if (!player.hasPermission("ghost.owner")){
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "You have don't permission for this Command!");
-        }
-        if (!player.hasPermission("ghost.admin")){
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "You have don't permission for this Command!");
-        }
-        if (!player.hasPermission("ghost.developer")){
+        if (GhostMain.getInstance().getPermissionOwnerConfiguration().get(".Name " + player.getName() + " " + ".UniqueID " + player.getUniqueId() + " " + ".Permission " + ownerPermissionID , true)){
+            locationName = args[0].toLowerCase();
+            if (GhostWarp.getInstance().getConfiguration().get(locationName) != null) {
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp exist");
+            }else {
+                Location location = player.getLocation();
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".World" , location.getWorld().getName());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".X" , location.getX());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Y" , location.getY());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Z" , location.getZ());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Pitch" , location.getPitch());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Yaw" , location.getYaw());
+                GhostWarp.getInstance().getConfiguration().save();
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.AQUA + "Warp " + ChatColor.GREEN + locationName + ChatColor.AQUA + " set!");
+            }
+        }else if (GhostMain.getInstance().getPermissionAdminConfiguration().get(".Name " + player.getName() + " " + ".UniqueID " + player.getUniqueId() + " " + ".Permission " + adminPermissionID ,true)){
+            locationName = args[0].toLowerCase();
+            if (GhostWarp.getInstance().getConfiguration().get(locationName) != null) {
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp exist");
+            }else {
+                Location location = player.getLocation();
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".World" , location.getWorld().getName());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".X" , location.getX());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Y" , location.getY());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Z" , location.getZ());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Pitch" , location.getPitch());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Yaw" , location.getYaw());
+                GhostWarp.getInstance().getConfiguration().save();
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.AQUA + "Warp " + ChatColor.GREEN + locationName + ChatColor.AQUA + " set!");
+            }
+        }else if (GhostMain.getInstance().getPermissionDeveloperConfiguration().get(".Name " + player.getName() + " " + ".UniqueID " + player.getUniqueId() + " " + ".Permission " + developerPermissionID ,true)){
+            locationName = args[0].toLowerCase();
+            if (GhostWarp.getInstance().getConfiguration().get(locationName) != null) {
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp exist");
+            }else {
+                Location location = player.getLocation();
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".World" , location.getWorld().getName());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".X" , location.getX());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Y" , location.getY());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Z" , location.getZ());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Pitch" , location.getPitch());
+                GhostWarp.getInstance().getConfiguration().set(locationName + ".Yaw" , location.getYaw());
+                GhostWarp.getInstance().getConfiguration().save();
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.AQUA + "Warp " + ChatColor.GREEN + locationName + ChatColor.AQUA + " set!");
+            }
+        }else if (GhostMain.getInstance().getPermissionModeratorConfiguration().get(".Name " + player.getName() + " " + ".UniqueID " + player.getUniqueId() + " " + ".Permission " + moderatorPermissionID ,true)) {
             player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "You have don't permission for this Command!");
         }
         if (args.length == 0) {
             player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "/delwarp [NAME]");
         }
-        locationName = args[0].toLowerCase();
-        if (GhostWarp.getInstance().getConfiguration().get(locationName) != null) {
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp exist");
-        }else {
-            Location location = player.getLocation();
-            GhostWarp.getInstance().getConfiguration().set(locationName + ".World" , location.getWorld().getName());
-            GhostWarp.getInstance().getConfiguration().set(locationName + ".X" , location.getX());
-            GhostWarp.getInstance().getConfiguration().set(locationName + ".Y" , location.getY());
-            GhostWarp.getInstance().getConfiguration().set(locationName + ".Z" , location.getZ());
-            GhostWarp.getInstance().getConfiguration().set(locationName + ".Pitch" , location.getPitch());
-            GhostWarp.getInstance().getConfiguration().set(locationName + ".Yaw" , location.getYaw());
-            GhostWarp.getInstance().getConfiguration().save();
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.AQUA + "Warp " + ChatColor.GREEN + locationName + ChatColor.AQUA + " set!");
-        }
+
         return false;
     }
 }

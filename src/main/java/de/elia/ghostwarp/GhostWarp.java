@@ -29,7 +29,7 @@ package de.elia.ghostwarp;
 
 import de.elia.ghostmain.all.plugins.prefix.Prefix;
 import de.elia.ghostmain.all.plugins.updater.Updater;
-import de.elia.ghostmain.thisplugin.GhostMain;
+import de.elia.ghostmain.GhostMain;
 import de.elia.ghostwarp.commands.del.DelWarpCommand;
 import de.elia.ghostwarp.commands.set.SetWarpCommand;
 import de.elia.ghostwarp.commands.teleport.WarpCommand;
@@ -67,10 +67,10 @@ public final class GhostWarp extends JavaPlugin {
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "Config loaded");
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "checks for Updates");
                 new Updater(this , 102443).getVersion(version -> {
-                    if (this.getDescription().getVersion().equals(version)) {
-                        Bukkit.getLogger().info(Prefix.getGhostLogger() + "There is not a new Update for the GhostWarp System available!");
-                    }else {
+                    if (!this.getDescription().getVersion().equals(version)) {
                         Bukkit.getLogger().warning(Prefix.getGhostLogger() + "There is a new Update for the GhostWarp System available!");
+                    }else {
+                        Bukkit.getLogger().info(Prefix.getGhostLogger() + "There is not a new Update for the GhostWarp System available!");
                     }
                 });
             Bukkit.getLogger().info(Prefix.getGhostLogger() + "Update checks");

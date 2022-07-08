@@ -28,6 +28,7 @@
 package de.elia.ghostwarp.commands.del;
 
 import de.elia.ghostmain.all.plugins.prefix.Prefix;
+import de.elia.ghostmain.GhostMain;
 import de.elia.ghostwarp.GhostWarp;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,6 +50,14 @@ public class DelWarpCommand implements CommandExecutor{
         this.plugin = plugin;
     }
 
+    private final String ownerPermissionID = "ghostowner";
+
+    private final String adminPermissionID = "ghostadmin";
+
+    private final String developerPermissionID = "ghostdeveloper";
+
+    private final String moderatorPermissionID = "ghostmoderator";
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
@@ -57,26 +66,38 @@ public class DelWarpCommand implements CommandExecutor{
         }
 
         player = (Player) sender;
-        if (!player.hasPermission("ghost.owner")){
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "You have don't permission for this Command!");
-        }
-        if (!player.hasPermission("ghost.admin")){
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "You have don't permission for this Command!");
-        }
-        if (!player.hasPermission("ghost.developer")){
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "You have don't permission for this Command!");
-        }
-        if (args.length == 0) {
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "/delwarp [NAME]");
-        }
-        locationName = args[0].toLowerCase();
+        if (GhostMain.getInstance().getPermissionOwnerConfiguration().get(".Name " + player.getName() + " " + ".UniqueID " + player.getUniqueId() + " " + ".Permission " + ownerPermissionID , true)){
+            locationName = args[0].toLowerCase();
 
-        if (GhostWarp.getInstance().getConfiguration().get(locationName) == null) {
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp is not exist!");
-        }else {
-            GhostWarp.getInstance().getConfiguration().set(locationName , null);
-            GhostWarp.getInstance().getConfiguration().save();
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.AQUA + "The Warp " + ChatColor.GREEN + locationName + ChatColor.AQUA + " is deleted!");
+            if (GhostWarp.getInstance().getConfiguration().get(locationName) == null) {
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp is not exist!");
+            }else {
+                GhostWarp.getInstance().getConfiguration().set(locationName , null);
+                GhostWarp.getInstance().getConfiguration().save();
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.AQUA + "The Warp " + ChatColor.GREEN + locationName + ChatColor.AQUA + " is deleted!");
+            }
+        }else if (GhostMain.getInstance().getPermissionAdminConfiguration().get(".Name " + player.getName() + " " + ".UniqueID " + player.getUniqueId() + " " + ".Permission " + adminPermissionID ,true)){
+            locationName = args[0].toLowerCase();
+
+            if (GhostWarp.getInstance().getConfiguration().get(locationName) == null) {
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp is not exist!");
+            }else {
+                GhostWarp.getInstance().getConfiguration().set(locationName , null);
+                GhostWarp.getInstance().getConfiguration().save();
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.AQUA + "The Warp " + ChatColor.GREEN + locationName + ChatColor.AQUA + " is deleted!");
+            }
+        }else if (GhostMain.getInstance().getPermissionDeveloperConfiguration().get(".Name " + player.getName() + " " + ".UniqueID " + player.getUniqueId() + " " + ".Permission " + developerPermissionID ,true)){
+            locationName = args[0].toLowerCase();
+
+            if (GhostWarp.getInstance().getConfiguration().get(locationName) == null) {
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp is not exist!");
+            }else {
+                GhostWarp.getInstance().getConfiguration().set(locationName , null);
+                GhostWarp.getInstance().getConfiguration().save();
+                player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.AQUA + "The Warp " + ChatColor.GREEN + locationName + ChatColor.AQUA + " is deleted!");
+            }
+        }else if (GhostMain.getInstance().getPermissionModeratorConfiguration().get(".Name " + player.getName() + " " + ".UniqueID " + player.getUniqueId() + " " + ".Permission " + moderatorPermissionID ,true)) {
+            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "You have don't permission for this Command!");
         }
         return true;
     }

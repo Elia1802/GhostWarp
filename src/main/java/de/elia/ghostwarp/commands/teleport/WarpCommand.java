@@ -25,63 +25,36 @@
  * SOFTWARE.
  */
 
-package de.elia.ghostwarp.commands.teleport;
+package de.elia.ghostwarp.plugin.updater;
 
 import de.elia.ghostmain.all.plugins.prefix.Prefix;
+import de.elia.ghostmain.all.plugins.updater.Updater;
+import de.elia.ghostmain.GhostMain;
 import de.elia.ghostwarp.GhostWarp;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class WarpCommand implements CommandExecutor{
+public class UpdateEvent implements Listener {
 
-    private final GhostWarp plugin;
+    private final String ownerPermissionID = "ghostowner";
 
-    private @Nullable String world;
+    private final String developerPermissionID = "ghostdeveloper";
 
-    private Player player;
-
-    private String locationName;
-
-    public WarpCommand(GhostWarp plugin){
-        this.plugin = plugin;
+    @EventHandler
+    public void onUpdate(@NotNull PlayerJoinEvent event){
+        Player player = event.getPlayer();
+        new Updater(GhostWarp.getInstance() , 102443).getVersion(version -> {
+            if (GhostWarp.getInstance().getDescription().getVersion().equals(version)) {
+                if (GhostMain.getInstance().getPermissionOwnerConfiguration().get(".Name " + player.getName() + " " + ".UniqueID " + player.getUniqueId() + " " + ".Permission " + ownerPermissionID , true)) {
+                    event.getPlayer().sendMessage(Prefix.getGhostWarpPrefix() + "A new Update for the Ghostwarp System is available!");
+                }else if (GhostMain.getInstance().getPermissionDeveloperConfiguration().get(".Name " + player.getName() + " " + ".UniqueID " + player.getUniqueId() + " " + ".Permission " + developerPermissionID ,true)){
+                    event.getPlayer().sendMessage(Prefix.getGhostWarpPrefix() + "A new Update for the Ghostwarp System is available!");
+                }
+            }
+        });
     }
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
-            Bukkit.getLogger().warning(Prefix.getGhostLogger() + "You have to be a Player!");
-            return false;
-        }
-
-        player = (Player) sender;
-        if (args.length == 0) {
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.GRAY + "Please enter a " + ChatColor.AQUA + "name" + ChatColor.GRAY + "!");
-            return false;
-        }
-
-        locationName = args[0].toLowerCase();
-
-        if (GhostWarp.getInstance().getConfiguration().get(locationName) == null) {
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.RED + "This Warp not exist!");
-        }else {
-            world = String.valueOf(Bukkit.getServer().getWorld(""));
-            world = GhostWarp.getInstance().getConfiguration().getString(locationName + ".World");
-            double x = GhostWarp.getInstance().getConfiguration().getDouble(locationName + ".X");
-            double y = GhostWarp.getInstance().getConfiguration().getDouble(locationName + ".Y");
-            double z = GhostWarp.getInstance().getConfiguration().getDouble(locationName + ".Z");
-            double yaw =  GhostWarp.getInstance().getConfiguration().getDouble(locationName + ".Pitch");
-            double pitch = GhostWarp.getInstance().getConfiguration().getDouble(locationName + ".Yaw");
-            Location location = new Location(Bukkit.getWorld(world), x , y , z , (float) pitch, (float) yaw);
-            player.teleport(location);
-            player.sendMessage(Prefix.getGhostWarpPrefix() + ChatColor.GREEN + "You have been teleport to " + ChatColor.AQUA + locationName);
-        }
-        return false;
-    }
 }
